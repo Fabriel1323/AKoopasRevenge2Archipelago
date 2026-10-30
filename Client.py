@@ -55,6 +55,15 @@ class KoopaCommandProcessor(ClientCommandProcessor):
         """Same as /cheatsoff."""
         self._cmd_cheatsoff()
 
+    def _cmd_showgoal(self):
+        """Show how many Silver Coins and Koopaling Stars you still need before the goal counts."""
+        bridge = self.ctx.bridge
+        if bridge is None:
+            logger.info("Connect to the Archipelago server first.")
+        else:
+            for line in bridge.goal_status():
+                logger.info(line)
+
     def _cmd_powerup(self, name: str = ""):
         """Give yourself a power-up you have unlocked, on the map screen only: /powerup fire, flight, dragon, spiny, thunder, bone, water, hammer. No argument lists yours."""
         bridge = self.ctx.bridge

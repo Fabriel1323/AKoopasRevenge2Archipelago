@@ -196,7 +196,8 @@ class Bridge:
         self.items_synced = False             # true after the first item list arrives
         self.sent: Set[str] = set()           # locations already reported
         self.goal_sent = False
-        self.goal_items = {k: v for k, v in (goal_items or {}).items() if v > 0}   # item name -> count needed
+        self.goal_items_all = dict(goal_items or {})
+        self.goal_items = {k: v for k, v in self.goal_items_all.items() if v > 0}   # item name -> count needed
         self.game_up = False
         self.note: Callable[[str], None] = lambda text: None     # where game notes are printed
         self.last_vars: Dict[str, int] = {}
@@ -282,7 +283,8 @@ class Bridge:
 
     # --- /powerup ----------------------------------------------------------
     def powerup_list(self) -> List[str]:
-        return [n for n in D.POWERUP_COLOURS if n in self.items]
+        """Short names (fire, flight, ...) of the power-ups you have received."""
+        return [short for item, short in D.POWERUP_SHORT.items() if item in self.items]
 
     def powerup(self, text: str):
         """Returns (ok, message). Only power-ups you have received; the game applies it on the map."""
@@ -325,6 +327,22 @@ class Bridge:
     def goal_items_ok(self) -> bool:
         counts = Counter(self.items)
         return all(counts[name] >= need for name, need in self.goal_items.items())
+
+    def goal_status(self) -> List[str]:
+        """Lines for /showgoal: what is still missing before the goal can count."""
+        counts = Counter(self.items)
+        lines = [f"Goal: {D.GOAL_TEXT.get(self.goal, 'finish the game')}."]
+        for label, item in (("Silver Coins", D.SILVER_COIN_ITEM), ("Koopaling Stars", D.STAR_ITEM)):
+            need, have = self.goal_items_all.get(item, 0), counts[item]
+            if need <= 0:
+                lines.append(f"{label}: not required.")
+            elif have >= need:
+                lines.append(f"{label}: all collected ({min(have, need)}/{need}).")
+            else:
+                lines.append(f"{label}: {need - have} more needed ({have}/{need}).")
+        if all(counts[k] >= v for k, v in self.goal_items.items()):
+            lines.append("You have every goal item - the goal completes as soon as you finish the game.")
+        return lines
 
     def goal_after_items(self) -> bool:
         """True once (and only once) when the game goal was already reached and the last required

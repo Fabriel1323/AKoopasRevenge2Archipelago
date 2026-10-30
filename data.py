@@ -17,7 +17,7 @@ BASE_ID = 8_200_000
 # w0l1 has no silver coins (1000011) but does have a secret exit (confirmed).
 # --------------------------------------------------------------------------
 LEVELS = [
-    ("w0l1", "World 0-1 (Tutorial)", 0, True, False),
+    ("w0l1", "World 0-1", 0, True, False),
     ("w1l1", "World 1-1", 1, True, True),
     ("w1l2", "World 1-2", 1, True, True),
     ("w1l3", "World 1-3", 1, False, True),
@@ -59,9 +59,9 @@ KOOPALINGS = {
     "Larry": ("larry", 1, "1-0 (Airship)", []),
     # Requirement syntax: a tuple is "any of these", a list is "all of these".
     # Morton (1-7): either cheat is enough on its own, otherwise the Flight Petal or Dragon Scale
-    # plus just one of the Yellow / Green Blocks.
-    "Morton": ("morton", 1, "1-7", [("Space Jump", "Screw Jump",
-                                     [("Flight Petal", "Dragon Scale"), ("Yellow Blocks", "Green Blocks")])]),
+    # plus the Yellow Blocks. The Green Blocks are not needed at all.
+    "Morton": ("morton", 1, "1-7", [("Space Jump",
+                                     [("Flight Petal", "Dragon Scale"), "Yellow Blocks"])]),
     "Wendy": ("wendy", 2, "2-4", ["Spiny Flower"]),
     "Iggy": ("iggy", 3, "3-2", ["Water Flower"]),
     "Roy": ("roy", 4, "4-1", ["Thunder Flower"]),
@@ -75,7 +75,7 @@ COIN_REQUIREMENTS = {
     ("w4l1", 1): ["Thunder Flower"],
     ("w2l1", 1): ["Spiny Flower"],
     ("w2l1", 2): ["Spiny Flower"],
-    ("w3l2", 2): [("Yellow Blocks", "Flight Petal", "Dragon Scale")],     # any of these
+    ("w3l2", 2): ["Green Blocks"],     # any of these
 }
 
 SECRET_REQUIREMENTS = {
@@ -315,4 +315,16 @@ POWERUP_ALIASES = {
     "fire": "Fire Flower", "flight": "Flight Petal", "petal": "Flight Petal", "dragon": "Dragon Scale",
     "scale": "Dragon Scale", "spiny": "Spiny Flower", "thunder": "Thunder Flower", "bone": "Bone/Boo Flower",
     "boo": "Bone/Boo Flower", "water": "Water Flower", "hammer": "Hammer Flower",
+}
+
+# Short names shown by /powerup (in the order they are listed to the player).
+POWERUP_SHORT = {
+    "Fire Flower": "fire", "Flight Petal": "flight", "Dragon Scale": "dragon", "Spiny Flower": "spiny",
+    "Thunder Flower": "thunder", "Bone/Boo Flower": "bone", "Water Flower": "water", "Hammer Flower": "hammer",
+}
+
+GOAL_TEXT = {
+    0: "beat Mario and Giga Mario in 5-3",
+    1: "beat 5-4",
+    2: "beat the boss rush in 1-0",
 }

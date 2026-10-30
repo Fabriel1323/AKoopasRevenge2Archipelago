@@ -8,7 +8,7 @@ from .data import FLOWER_FACE_MAX, SILVER_COIN_ITEM_MAX, STAR_ITEM_MAX
 class Goal(Choice):
     """What completes your game.
     mario_giga_mario: beat Mario and Giga Mario in 5-3.
-    beat_5_4: beat the true ending in 5-4.
+    beat_5_4: beat the final boss in 5-4.
     boss_rush: beat the boss rush in 1-0 (the airship), which unlocks after beating 5-4."""
     display_name = "Goal"
     option_mario_giga_mario = 0
@@ -18,7 +18,7 @@ class Goal(Choice):
 
 
 class StartingWorld(Choice):
-    """World whose unlock item you start with."""
+    """World whose unlock item you start with. World 0 (tutorial) is always open."""
     display_name = "Starting World"
     option_world_1 = 1
     option_world_2 = 2
